@@ -14,6 +14,7 @@ import com.app.ims.constatnts.ImsConstants;
 import com.app.ims.response.ImsResponse;
 import com.app.ims.service.ImageSearchService;
 import com.app.ims.service.ImageUploadService;
+import com.app.ims.service.UserService;
 
 @RestController
 @RequestMapping(value="v0/ims/image")
@@ -22,6 +23,8 @@ public class ImageController {
 	@Autowired ImageUploadService imageUploadService;
 	
 	@Autowired ImageSearchService imageSearchService;
+	
+	@Autowired UserService userService;
 	
 	@RequestMapping(value="/{name}", method= {RequestMethod.GET})
 	public ImsResponse downloadImage(@PathVariable("name") String name, 
@@ -46,7 +49,8 @@ public class ImageController {
 	public ImsResponse uploadImage(@RequestParam("file") MultipartFile file, 
 								   @RequestParam("user") String user,
 								   @RequestParam(value = "overwrite", defaultValue = "false") Boolean overwrite) {
-		ImsResponse imsResponse = imageUploadService.uploadImage(file, overwrite, user);		
+		ImsResponse imsResponse = imageUploadService.uploadImage(file, overwrite, user);
+		userService.addUserFile(user, imsResponse);
 		
 		return imsResponse;
 	}
@@ -55,7 +59,7 @@ public class ImageController {
 	public ImsResponse uploadImage(@PathVariable("name") String name, 
 								   @RequestParam("type") String type,
 								   @RequestParam("user") String user) {
-		ImsResponse imsResponse = imageUploadService.deleteImage(name, type, user);		
+		ImsResponse imsResponse = imageUploadService.deleteImage(name, type, user);	
 		
 		return imsResponse;
 	}
