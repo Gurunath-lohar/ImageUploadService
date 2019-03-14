@@ -1,7 +1,5 @@
 package com.app.ims.controller;
 
-import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,15 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.ims.auth.AccessLevel;
 import com.app.ims.auth.Role;
 import com.app.ims.auth.User;
-import com.app.ims.response.ImsResponse;
 import com.app.ims.service.ImageSearchService;
 import com.app.ims.service.UserService;
 
+@RestController
+@RequestMapping(value="v0/ims/user")
 public class UserController {
-	@RestController
-	@RequestMapping(value="v0/ims/user")
-	public class ImageController {
-		
+	
+	
 		@Autowired UserService userService;
 		
 		@Autowired ImageSearchService imageSearchService;
@@ -32,7 +29,7 @@ public class UserController {
 		  return message; 
 		} 
 		
-		@RequestMapping(method= {RequestMethod.POST})
+		@RequestMapping(method= {RequestMethod.POST}) 
 		public String addUser(@RequestParam("adminId") Long adminId, 
 									   @RequestParam("userId") Long userId,
 									   @RequestParam("name") String name,
@@ -51,6 +48,5 @@ public class UserController {
 			
 			return message;
 		}
-	}
 
 }
